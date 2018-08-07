@@ -5,6 +5,7 @@ import numpy as np
 import os
 import random
 import yaml
+import logging
 
 from tqdm import tqdm
 
@@ -15,6 +16,11 @@ from questions.utils import balance_questions_by_qid, NUM_DISTINCT_QS
 
 from scipy.stats import norm as norm_gen
 
+
+logger = logging.getLogger(__name__)
+logging.basicConfig(format='%(asctime)s,%(msecs)d %(levelname)-8s [%(filename)s:%(lineno)d] %(message)s',
+    datefmt='%d-%m-%Y:%H:%M:%S',
+    level=logging.INFO)
 
 # Utility functions
 def generate_data_by_shape(x_range, y_range, n, x_distn, shape):
@@ -96,7 +102,7 @@ def generate_data_by_shape(x_range, y_range, n, x_distn, shape):
                 break
 
         y = final_points
-
+    
     elif shape == "quadratic":
         # Use vertex form: y = a(x-h)^2 + k
         h = (x_range[1] - x_range[0])/2 * np.random.random() + x_range[0]
@@ -276,7 +282,8 @@ def _generate_visuals_common():
 
 def _generate_bar_categorical(key):
     config = data_config[key]   
-    
+    #logger.info('generate bars configs')
+    #logger.info(config)
     data = _generate_scatter_data_categorical(  config['y_range'],
                                                 config['n_points_range'],
                                                 config['x_distn'],
@@ -285,15 +292,36 @@ def _generate_bar_categorical(key):
                                                 fix_y_range=True
                                             )
 
+    #logger.info('data content')
+    #logger.info(data)
+
     # Get colors and labels
     all_color_pairs = []
+    #logger.info('source of axis : ')
+    #1logger.info(config['color_sources'][0])
+    config['color_sources'][0] = 'resources/vbar_source.txt'
     with open(os.path.normpath(config['color_sources'][0]), 'r') as f:
         for w in f.readlines():
             name, color = w.split(',')
             all_color_pairs.append((name.strip(), color.strip()))
-
-    selected_color_pairs = random.sample(all_color_pairs, len(data['data'][0]['x']))
-
+    #logger.info('data[data][0][x] is : ')
+    #data['data'][0]['x'] = [0,1,2,3]
+    #logger.info(data['data'][0]['x'])
+    #data['data'][0]['x'] = [1980, 1990, 2000, 2010]
+    #logger.info('source of axis : ')
+    data['data'][0]['x'].sort()
+    #logger.info(data['data'][0]['x'])
+    #logger.info('================================================')
+    #logger.info('all color pairs : ')
+    #logger.info(all_color_pairs)
+    selected_color_pairs = []
+    for i in range(len(data['data'][0]['x'])):
+        selected_color_pairs.append(all_color_pairs[i])
+    #selected_color_pairs = [x for x in all_color_pairs ]
+    #selected_color_pairs = random.sample(all_color_pairs, len(data['data'][0]['x']))
+    #logger.info('selected color pairs')
+    #logger.info(selected_color_pairs)
+    #len(data['data'][0]['x'])
     assigned_labels = []
     assigned_colors = []
     for label_index in data['data'][0]['x']:
@@ -311,7 +339,7 @@ def _generate_bar_categorical(key):
 def generate_vbar_categorical():
     bar_data = _generate_bar_categorical("vbar_categorical")
     bar_data['type'] = "vbar_categorical"
-    bar_data['qa_pairs'] = generate_bar_graph_questions(combine_source_and_rendered_data(bar_data), color_map=color_map)
+    #bar_data['qa_pairs'] = generate_bar_graph_questions(combine_source_and_rendered_data(bar_data), color_map=color_map)
     return bar_data
 
 
@@ -378,14 +406,28 @@ def _generate_line(key):
                                                 config['n_classes_range'],
                                                 fix_x_range=True
                                             )
+    #logger.info('_generate_line config')
+    #logger.info(config)
+    #logger.info('================================')
+    #logger.info('data in _generate_line')
+    #logger.info(data)
+    #logger.info('================================')
+
     # Get colors and labels
     all_color_pairs = []
+    config['color_sources'][0] = 'resources/line_source.txt'
     with open(os.path.normpath(config['color_sources'][0]), 'r') as f:
         for w in f.readlines():
             name, color = w.split(',')
             all_color_pairs.append((name.strip(), color.strip()))
 
-    selected_color_pairs = random.sample(all_color_pairs, len(data['data']))
+    selected_color_pairs = []
+    for i in range(len(data['data'])):
+        selected_color_pairs.append(all_color_pairs[i])
+    #logger.info('data[data] is : ')
+    #logger.info(data['data'])
+    
+    #selected_color_pairs = random.sample(all_color_pairs, len(data['data']))
 
     for i, point_set in enumerate(data['data']):
         point_set['label'] = selected_color_pairs[i][0]
@@ -397,7 +439,7 @@ def _generate_line(key):
 def generate_line():
     line_data = _generate_line("line")
     line_data['type'] = "line"
-    line_data['qa_pairs'] = generate_line_plot_questions(combine_source_and_rendered_data(line_data), color_map=color_map)
+    #line_data['qa_pairs'] = generate_line_plot_questions(combine_source_and_rendered_data(line_data), color_map=color_map)
     visuals = _generate_visuals_for_line_plot(line_data['data'])
 
     # Add variation for line styles
@@ -542,7 +584,8 @@ def generate_source_data (
     generated_data = []
 
     for args_key, config_key in PLOT_KEY_PAIRS:
-
+        #logger.info('args_key and config_key are : ')
+        #logger.info(args_key + ',  ' + config_key)
         figure_ids = range(0, locals()[args_key])
 
         if len(figure_ids) == 0:
@@ -555,9 +598,13 @@ def generate_source_data (
             if config_key in data_config:
                 generated_data.append(globals()['generate_' + config_key]())
 
+    #logger.info('print generated_data')
+    #logger.info('======================================')
+    #logger.info(generated_data)
+
     # Balance by question ID
-    if not keep_all_questions:
-        balance_questions_by_qid(generated_data)
+    #if not keep_all_questions:
+        #balance_questions_by_qid(generated_data)
 
     with open(output_file_json, 'w') as f:
         json.dump({

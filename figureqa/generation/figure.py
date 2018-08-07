@@ -2,6 +2,9 @@
 from __future__ import division
 
 import copy
+import os
+import json
+import logging 
 
 from bokeh.io import export_png_and_data    # Custom function
 from bokeh.models import ColumnDataSource, LabelSet, Legend
@@ -12,14 +15,18 @@ from bokeh.plotting import figure
 
 MARKERS = [Asterisk, Circle, Cross, Diamond, Square, Triangle, X]
 
-
+logger = logging.getLogger(__name__)
+# adding json annotation for the axis
+with open(os.path.join(os.path.dirname(__file__),"vhbar_axis_labels.json"), 'r') as ff:
+        data1 = json.load(ff)
+        logger.info("data read from json file")
 # Used in modified BokehJS
 TITLE_ID = "the_title"
-TITLE_LABEL = "title"
+TITLE_LABEL = data1["title_title"]#"title"
 X_AXIS_ID = "the_xaxis"
 Y_AXIS_ID = "the_yaxis"
-X_AXIS_LABEL = "xaxis_label"
-Y_AXIS_LABEL = "yaxis_label"
+X_AXIS_LABEL = data1["xaxis_label"]#"xaxis_label" #"women"
+Y_AXIS_LABEL = data1["yaxis_label"]#"yaxis_label" #"salary"
 X_GRID_ID = "the_x_gridlines"
 Y_GRID_ID = "the_y_gridlines"
 
@@ -52,6 +59,7 @@ class HBarGraphCategorical (object):
         p.yaxis.axis_label = Y_AXIS_LABEL
         p.title.name = TITLE_ID
 
+        
         if visuals['draw_gridlines']:
             if p.grid[0].dimension == 0:
                 p.grid[0].name = X_GRID_ID
@@ -73,7 +81,7 @@ class VBarGraphCategorical (object):
         # Set up the plot
         p = figure(plot_width=visuals['figure_width'], plot_height=visuals['figure_height'], title=TITLE_LABEL, toolbar_location=None, x_range=data['x'])
         p.vbar(x=data['x'], width=0.5, bottom=0, top=data['y'], fill_color=data['colors'], line_color=None, name="the_bars")
-        
+        #logger.info("hi there")
         # Set identifiers for the figure elements
         p.xaxis.name = X_AXIS_ID
         p.xaxis.axis_label = X_AXIS_LABEL
@@ -81,6 +89,12 @@ class VBarGraphCategorical (object):
         p.yaxis.name = Y_AXIS_ID
         p.yaxis.axis_label = Y_AXIS_LABEL
         p.title.name = TITLE_ID
+
+        ## debugging arguments
+        #logger.info('checking data source')
+        #logger.info(data)
+        #logger.info('checking visuals')    # not really relevant
+        #logger.info(visuals)               # not really relevant
 
         if visuals['draw_gridlines']:
             if p.grid[0].dimension == 0:

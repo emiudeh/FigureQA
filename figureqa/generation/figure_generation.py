@@ -5,6 +5,7 @@ import os
 import signal
 import selenium.webdriver as seldriver
 import yaml
+import logging
 
 from selenium.webdriver.remote.webdriver import WebDriver as RemoteWebDriver
 from tqdm import tqdm
@@ -16,6 +17,7 @@ from show_bounding_boxes import generate_all_images_with_bboxes_for_plot
 from questions.categorical import generate_bar_graph_questions, generate_pie_chart_questions
 from questions.lines import generate_line_plot_questions
 
+logger = logging.getLogger(__name__)
 
 def generate_figures (
         source_data_json,
@@ -53,7 +55,14 @@ def generate_figures (
     for fig_id, source in tqdm(iter(enumerate(source_data_json['data'])), total=len(source_data_json['data']), desc="Plotting figures"):
 
         point_sets = source['data']
-
+        #logger.info('checking source var')
+        #logger.info(source)
+        #logger.info('==================================================================')
+        #logger.info('checking point_sets')
+        #logger.info(point_sets)
+        #logger.info('==================================================================')
+        #logger.info('checking point_sets[0]')
+        #logger.info(point_sets[0])
         fig = None
         fig_type = source['type']
 
@@ -82,16 +91,16 @@ def generate_figures (
         qa_json_file = os.path.join(qa_json_dir, "%s_%s.json" % (fig_id, fig_type))
         annotations_json_file = os.path.join(annotations_json_dir, "%d_%s_annotations.json" % (fig_id, fig_type))
 
-        for qa in source['qa_pairs']:
-            qa['image'] = os.path.basename(png_file)
-            qa['annotations'] = os.path.basename(annotations_json_file)
+        #for qa in source['qa_pairs']:
+        #    qa['image'] = os.path.basename(png_file)
+        #    qa['annotations'] = os.path.basename(annotations_json_file)
 
-        with open(qa_json_file, 'w') as f:
-            json.dump({
-                'qa_pairs': source['qa_pairs'], 
-                'total_distinct_questions': source_data_json['total_distinct_questions'],
-                'total_distinct_colors': source_data_json['total_distinct_colors']
-            }, f)
+        #with open(qa_json_file, 'w') as f:
+        #    json.dump({
+        #        'qa_pairs': source['qa_pairs'], 
+        #        'total_distinct_questions': source_data_json['total_distinct_questions'],
+        #        'total_distinct_colors': source_data_json['total_distinct_colors']
+        #    }, f)
 
         with open(annotations_json_file, 'w') as f:
             json.dump(all_plot_data, f)
