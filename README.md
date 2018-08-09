@@ -69,3 +69,6 @@ Note that this does not generate the test sets.
 1. `python figureqa/generation/source_data_generation.py CONFIG_FILE.yaml SOURCE_DATA.json --<figure_type> <N_figures> ...`
 1. `python figureqa/generation/figure_generation.py SOURCE_DATA.json RAW_GENERATED_DIR`
 1. `python figureqa/generation/json_combiner.py FINAL_AGGREGATE_DIR RAW_GENERATED_DIR1 RAW_GENERATED_DIR2 ...`
+
+#### With One script
+python figureqa\generation\generate_dataset.py config\figureqa_generation_config.yaml
