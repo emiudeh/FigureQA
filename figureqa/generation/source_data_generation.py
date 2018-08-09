@@ -10,8 +10,8 @@ import logging
 from tqdm import tqdm
 
 from data_utils import combine_source_and_rendered_data, get_best_inside_legend_position, hex_to_rgb
-from questions.categorical import generate_bar_graph_questions, generate_pie_chart_questions
-from questions.lines import generate_line_plot_questions
+#from questions.categorical import generate_bar_graph_questions, generate_pie_chart_questions
+#from questions.lines import generate_line_plot_questions
 from questions.utils import balance_questions_by_qid, NUM_DISTINCT_QS
 
 from scipy.stats import norm as norm_gen
@@ -349,7 +349,7 @@ def generate_hbar_categorical():
     bar_data['data'][0]['x'] = bar_data['data'][0]['y']
     bar_data['data'][0]['y'] = old_x
     bar_data['type'] = "hbar_categorical"
-    bar_data['qa_pairs'] = generate_bar_graph_questions(combine_source_and_rendered_data(bar_data), color_map=color_map)
+    #bar_data['qa_pairs'] = generate_bar_graph_questions(combine_source_and_rendered_data(bar_data), color_map=color_map)
     return bar_data
 
 
@@ -465,7 +465,7 @@ def generate_line():
 def generate_dot_line():
     line_data = _generate_line("dot_line")
     line_data['type'] = "dot_line"
-    line_data['qa_pairs'] = generate_line_plot_questions(combine_source_and_rendered_data(line_data), color_map=color_map)
+    #line_data['qa_pairs'] = generate_line_plot_questions(combine_source_and_rendered_data(line_data), color_map=color_map)
     line_data['visuals'] = _generate_visuals_for_line_plot(line_data['data'])
 
     return line_data
@@ -531,7 +531,7 @@ def generate_pie():
         visuals['legend_layout_position'] = legend_layout_position            
 
     pie_data['visuals'] = visuals
-    pie_data['qa_pairs'] = generate_pie_chart_questions(combine_source_and_rendered_data(pie_data), color_map=color_map)
+    #pie_data['qa_pairs'] = generate_pie_chart_questions(combine_source_and_rendered_data(pie_data), color_map=color_map)
 
     return pie_data
 
@@ -543,7 +543,7 @@ def generate_source_data (
         seed=1,
         colors=os.path.join("resources", "x11_colors_refined.txt"),
         keep_all_questions=False,
-        vbar=0,
+        vbar=10,
         hbar=0,
         pie=0,
         line=0,

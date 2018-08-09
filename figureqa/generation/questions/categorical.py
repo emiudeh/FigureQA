@@ -1,11 +1,15 @@
 #!/usr/bin/python
 import numpy as np
 import random
+import logging
 
 from collections import Counter
 
-from utils import augment_questions
-
+#from utils import augment_questions
+logger = logging.getLogger(__name__)
+logging.basicConfig(format='%(asctime)s,%(msecs)d %(levelname)-8s [%(filename)s:%(lineno)d] %(message)s',
+    datefmt='%d-%m-%Y:%H:%M:%S',
+    level=logging.INFO)
 
 def _get_cat_noncat_bars(bars_data):
     """ Returns (cat, non-cat) """
@@ -146,8 +150,8 @@ def _generate(original_data, cat, noncat, color_map=None):
                     'answer': 0
                 }]
 
-    if color_map:
-        augment_questions(qa_pairs, color_map)
+    #if color_map:
+        #augment_questions(qa_pairs, color_map)
 
     return qa_pairs
 
@@ -155,6 +159,14 @@ def _generate(original_data, cat, noncat, color_map=None):
 def generate_bar_graph_questions(data, color_map=None):
     data = data['models'][0]
     cat, noncat = _get_cat_noncat_bars(data)
+    logger.info("data is ")
+    logger.info(data)
+    logger.info("====================")
+    logger.info("cat is : ")
+    logger.info(cat)
+    logger.info("====================")
+    logger.info("noncat is : ")
+    logger.info(noncat)
     return _generate(data, cat, noncat, color_map)
 
 

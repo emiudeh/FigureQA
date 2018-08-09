@@ -54,19 +54,19 @@ def combine_figure_data(
                 all_annotations.append(annotations)
 
             # Read QA pairs and append
-            with open(os.path.join(qa_subdir, "%s.json" % image_name), 'r') as f:
-                qa_data = json.load(f)
-                qas = qa_data['qa_pairs']
+            #with open(os.path.join(qa_subdir, "%s.json" % image_name), 'r') as f:
+            #    qa_data = json.load(f)
+            #    qas = qa_data['qa_pairs']
 
-            if not total_distinct_questions and len(qas) > 0:
-                total_distinct_questions = qa_data['total_distinct_questions']
-                total_distinct_colors = qa_data['total_distinct_colors']
+            #if not total_distinct_questions and len(qas) > 0:
+            #    total_distinct_questions = qa_data['total_distinct_questions']
+            #    total_distinct_colors = qa_data['total_distinct_colors']
 
-            for qa in qas:
-                del qa['image']
-                del qa['annotations']
-                qa['image_index'] = image_index
-                all_qas.append(qa)
+            #for qa in qas:
+            #    del qa['image']
+            #    del qa['annotations']
+            #    qa['image_index'] = image_index
+            #    all_qas.append(qa)
 
             image_index += 1
 
