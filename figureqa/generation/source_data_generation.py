@@ -21,7 +21,7 @@ logger = logging.getLogger(__name__)
 logging.basicConfig(format='%(asctime)s,%(msecs)d %(levelname)-8s [%(filename)s:%(lineno)d] %(message)s',
     datefmt='%d-%m-%Y:%H:%M:%S',
     level=logging.INFO)
-
+program_counter = 0
 # Utility functions
 def generate_data_by_shape(x_range, y_range, n, x_distn, shape):
     x = []
@@ -169,7 +169,8 @@ def _generate_scatter_data_continuous(x_range, y_range, x_distns, shapes, n_poin
     n_classes = np.random.random_integers(s, e)
     s, e = n_points_range
     n_points = np.random.random_integers(s, e)
-
+    #logger.info('continous x_distns is : ')
+    #logger.info(x_distns) x_distns = ['linear']
     point_sets = []
     for i in range(0, n_classes):
         x_distn = np.random.choice(x_distns)
@@ -195,14 +196,22 @@ def _generate_scatter_data_categorical(y_range, n_points_range, x_distns, shapes
     n_classes = np.random.random_integers(s, e)
     s, e = n_points_range
     n_points = np.random.random_integers(s, e)
-    
+    #logger.info(shapes)
+    if (program_counter % 2 == 0):
+        shape_chosed = 'linear_inc'
+    else :
+        shape_chosed = 'linear_dec'
+    logger.info(shape_chosed)
+    logger.info('program counter is : ' +  str(program_counter))
+    #logger.info(program_counter)
     # Pick and randomize the labels, by index
     all_labels = np.random.permutation(n_points).tolist()
-
+    #logger.info('categorial x_distns is : ')
+    #logger.info(x_distns) x_distns = ['linear']
     point_sets = []
     for i in range(0, n_classes):
         x_distn = np.random.choice(x_distns)
-        shape = np.random.choice(shapes)
+        shape = shape_chosed#np.random.choice(shapes)
         x, y = generate_data_by_shape([0, n_points - 1], y_range, n_points, x_distn, shape)
         
         # Round x to discretize it
@@ -284,6 +293,7 @@ def _generate_bar_categorical(key):
     config = data_config[key]   
     #logger.info('generate bars configs')
     #logger.info(config)
+    
     data = _generate_scatter_data_categorical(  config['y_range'],
                                                 config['n_points_range'],
                                                 config['x_distn'],
@@ -294,11 +304,17 @@ def _generate_bar_categorical(key):
 
     #logger.info('data content')
     #logger.info(data)
-
+    #logger.info('shape is : ')
+    
+    if (program_counter < 5):
+        config['shape'] = 'linear_inc'
+    else:
+        config['shape'] = 'linear_dec'
+    #logger.info(config['shape'])
     # Get colors and labels
     all_color_pairs = []
     #logger.info('source of axis : ')
-    #1logger.info(config['color_sources'][0])
+    #logger.info(config['color_sources'][0])
     config['color_sources'][0] = 'resources/vbar_source.txt'
     with open(os.path.normpath(config['color_sources'][0]), 'r') as f:
         for w in f.readlines():
@@ -339,6 +355,8 @@ def _generate_bar_categorical(key):
 def generate_vbar_categorical():
     bar_data = _generate_bar_categorical("vbar_categorical")
     bar_data['type'] = "vbar_categorical"
+    global program_counter 
+    program_counter = program_counter + 1
     #bar_data['qa_pairs'] = generate_bar_graph_questions(combine_source_and_rendered_data(bar_data), color_map=color_map)
     return bar_data
 
@@ -558,7 +576,9 @@ def generate_source_data (
 
     global data_config
     global common_config
-
+    
+    #global inc_counter = 0
+    #global dec_counter = 0
     with open(data_config_yaml, 'r') as f:
         data_config = yaml.load(f)
 
