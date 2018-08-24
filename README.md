@@ -71,4 +71,4 @@ Note that this does not generate the test sets.
 1. `python figureqa/generation/json_combiner.py FINAL_AGGREGATE_DIR RAW_GENERATED_DIR1 RAW_GENERATED_DIR2 ...`
 
 #### With One script
-python figureqa\generation\generate_dataset.py config\figureqa_generation_config.yaml
+`python figureqa\generation\generate_dataset.py config\figureqa_generation_config.yaml`
