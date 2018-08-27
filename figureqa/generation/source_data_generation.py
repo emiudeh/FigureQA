@@ -160,24 +160,62 @@ def sample_from_custom_gaussian(mean, stddev, bound_start, bound_end):
 
 # Data generation functions
 def _generate_scatter_data_continuous(x_range, y_range, x_distns, shapes, n_points_range, n_classes_range, class_distn_mean=0, fix_x_range=False, fix_y_range=False):
+    #logger.info('x_range is : ')
+    #logger.info(x_range) # [0, 100]
+    #logger.info('================================')
+    #logger.info('y_range is : ')
+    #logger.info(y_range) # [0, 100]
+    #logger.info('================================')
+    #logger.info('n_classes_range is : ')
+    #logger.info(n_classes_range)
+    #logger.info('================================')
+    #logger.info('n_points_range is : ')
+    #logger.info(n_points_range)
+    #logger.info('================================')
     if not fix_x_range:
         x_range = pick_random_int_range(x_range)
+        
     if not fix_y_range:
         y_range = pick_random_int_range(y_range)
+        
+    #logger.info('x_range after if is : ')
+    #logger.info(x_range)
+    
+    #logger.info('y_range after if is : ')
+    #logger.info(y_range)
 
-    s, e = n_classes_range
+    s, e = [2, 5]#n_classes_range # n_classes_range = [2,7]
     n_classes = np.random.random_integers(s, e)
-    s, e = n_points_range
+    logger.info('n_classes is : ')
+    logger.info(n_classes)
+    s, e = n_points_range # = [5,20]
     n_points = np.random.random_integers(s, e)
-    #logger.info('continous x_distns is : ')
-    #logger.info(x_distns) x_distns = ['linear']
+
+    logger.info('n_points is : ')
+    logger.info(n_points)
+
+
+    logger.info('continous x_distns is : ')
+    logger.info(x_distns) #x_distns = ['linear']
     point_sets = []
     for i in range(0, n_classes):
         x_distn = np.random.choice(x_distns)
+
+        logger.info('x_distn in for loop is : ')
+        logger.info(x_distn)
+
         shape = np.random.choice(shapes)
 
-        x, y = generate_data_by_shape(x_range, y_range, n_points, x_distn, shape)
+        logger.info('shape in for loop is : ')
+        logger.info(shape)
 
+        x, y = generate_data_by_shape(x_range, y_range, n_points, x_distn, shape)
+        logger.info('========================================================')
+        logger.info('x is : ')
+        logger.info(x)
+        logger.info('y is : ')
+        logger.info(y)
+        logger.info('========================================================')
         if type(x) != type([]):
             x = x.tolist()
         if type(y) != type([]):
@@ -189,25 +227,51 @@ def _generate_scatter_data_continuous(x_range, y_range, x_distns, shapes, n_poin
 
 
 def _generate_scatter_data_categorical(y_range, n_points_range, x_distns, shapes, n_classes_range, fix_y_range=False):
+    logger.info('hiiiiiiiiii there!')
+    logger.info('y_range before if is : ')
+    logger.info(y_range)
+    
+    logger.info('n_points_range before if is : ')
+    logger.info(n_points_range)
+    logger.info('n_classes_range is : ')
+    logger.info(n_classes_range)# [2, 10]
+    logger.info('x_distns before if is : ')
+    logger.info(x_distns)
+    logger.info('==================')
+
+
+
     if not fix_y_range:
         y_range = pick_random_int_range(y_range)
 
-    s, e = n_classes_range
+
+    logger.info('y_range after if is : ')
+    logger.info(y_range)
+    
+    
+    s, e = [2, 5]#n_classes_range
     n_classes = np.random.random_integers(s, e)
+    logger.info('n_classes is : ')
+    logger.info(n_classes)
     s, e = n_points_range
     n_points = np.random.random_integers(s, e)
-    #logger.info(shapes)
+
+    logger.info('shapes is : ')
+    logger.info(shapes)
     if (program_counter % 2 == 0):
         shape_chosed = 'linear_inc'
     else :
         shape_chosed = 'linear_dec'
-    logger.info(shape_chosed)
-    logger.info('program counter is : ' +  str(program_counter))
+    #logger.info(shape_chosed)
+    #logger.info('program counter is : ' +  str(program_counter))
     #logger.info(program_counter)
     # Pick and randomize the labels, by index
     all_labels = np.random.permutation(n_points).tolist()
     #logger.info('categorial x_distns is : ')
     #logger.info(x_distns) x_distns = ['linear']
+    logger.info('all_labels is : ')
+    logger.info(all_labels)
+
     point_sets = []
     for i in range(0, n_classes):
         x_distn = np.random.choice(x_distns)
@@ -231,12 +295,30 @@ def _generate_scatter_data_categorical(y_range, n_points_range, x_distns, shapes
                 continue
 
         x, y = dedupe_x, dedupe_y
-
+        zero_found = 0.0 in y
+        
+        #index_of_zero_value = y.index(0.0)
+        #index_of_zero_value = y.index(0.0)
+        #index_of_zero_value = y.index(0.0) if 0.0 in y else None
+        if zero_found :
+            index_of_zero_value = y.index(0.0)
+            y.pop(index_of_zero_value)
+            x.pop(index_of_zero_value)
+        logger.info('========================================================')
+        logger.info('x is : ')
+        logger.info(x)
+        logger.info('y is : ')
+        logger.info(y)
+        logger.info('========================================================') 
         labels = [all_labels[xx] for xx in x]
+        logger.info('labels is : ')
+        logger.info(labels)
         if type(y) != type([]):
             y = y.tolist()
 
         point_sets.append({ 'class': i, 'x': labels, 'y': y })
+        logger.info('point_sets is : ')
+        logger.info(point_sets)
 
     return {'type': "scatter_categorical_base", 'data': point_sets, 'n_points': n_points}
 
@@ -320,9 +402,9 @@ def _generate_bar_categorical(key):
         for w in f.readlines():
             name, color = w.split(',')
             all_color_pairs.append((name.strip(), color.strip()))
-    #logger.info('data[data][0][x] is : ')
+    logger.info('data[data][0][x] is : ')
     #data['data'][0]['x'] = [0,1,2,3]
-    #logger.info(data['data'][0]['x'])
+    logger.info(data['data'][0]['x'])
     #data['data'][0]['x'] = [1980, 1990, 2000, 2010]
     #logger.info('source of axis : ')
     data['data'][0]['x'].sort()
@@ -331,18 +413,26 @@ def _generate_bar_categorical(key):
     #logger.info('all color pairs : ')
     #logger.info(all_color_pairs)
     selected_color_pairs = []
-    for i in range(len(data['data'][0]['x'])):
+    #logger.info("range(len(data['data'][0]['x'])) is : ")
+    #logger.info(range(len(data['data'][0]['x'])))
+    for i in data['data'][0]['x']: #range(len(data['data'][0]['x'])):
         selected_color_pairs.append(all_color_pairs[i])
     #selected_color_pairs = [x for x in all_color_pairs ]
     #selected_color_pairs = random.sample(all_color_pairs, len(data['data'][0]['x']))
-    #logger.info('selected color pairs')
-    #logger.info(selected_color_pairs)
+    logger.info('selected color pairs')
+    logger.info(selected_color_pairs)
     #len(data['data'][0]['x'])
     assigned_labels = []
     assigned_colors = []
-    for label_index in data['data'][0]['x']:
+    for label_index in range(len(data['data'][0]['x'])):#data['data'][0]['x']:
+        #logger.info('label_index is : ')
+        #logger.info(label_index)
         assigned_labels.append(selected_color_pairs[label_index][0])
+        #logger.info('selected_color_pairs[label_index][0] is : ')
+        #logger.info(selected_color_pairs[label_index][0])
         assigned_colors.append(selected_color_pairs[label_index][1])
+        #logger.info('selected_color_pairs[label_index][1] is : ')
+        #logger.info(selected_color_pairs[label_index][1])
 
     # Re-map the labels
     new_point_set = {'class': data['data'][0]['class'], 'x': assigned_labels, 'y': data['data'][0]['y'], 'labels': assigned_labels, 'colors': assigned_colors}
