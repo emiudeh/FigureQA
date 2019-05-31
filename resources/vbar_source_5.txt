@@ -1,0 +1,4 @@
+Financial Groups, #32CD32
+Tech, #00BFFF
+Insurance, #808080
+Law Firms, #8B008B

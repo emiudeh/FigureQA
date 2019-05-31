@@ -1,0 +1,194 @@
+"
+This 
+graph 
+represents 
+the 
+median salary of women   
+from 
+the 
+years
+2000 - 2015
+.  
+The 
+highest salary <difficult>
+is 
+in 
+2015    4  
+with  
+55    4
+thousand      
+, 
+this 
+is 
+above 
+the 
+50    3
+thousand  
+in 
+2010    3
+.
+In 
+2005    2
+the 
+median 
+was 
+45    2
+thousand 
+and 
+in 
+2000    1
+40    1
+thousand  
+.
+"
+,
+
+
+"
+The gender pay gap 
+is 
+highest 
+in 
+the 
+UK    7 
+at 
+15%    7 
+, 
+followed 
+by 
+Spain    6
+at 
+10%    6 
+. 
+Germany    5
+has 
+the 
+lowest 
+gender pay gap 
+at 
+5%    5 
+
+
+"
+,
+
+
+"
+Money spent on higher education across several continents in the year 2010.  
+The 
+highest amount 
+spent 
+was 
+from 
+Asia    14
+at 
+a 
+cost 
+of 
+just 
+over 
+300,000,000    14
+.  
+The 
+amount
+spent
+in 
+North America    12 
+was 
+200,000,000    12
+.  
+In 
+Europe    13
+, 
+the 
+cost 
+was 
+100,000,000    13
+and 
+finally 
+Africa    15
+came 
+in 
+at 
+50,000,000    15
+.
+
+"
+
+
+,
+
+
+
+"
+America    16
+is 
+the 
+continent 
+with 
+most 
+universities in the top 100 
+table 
+with 
+50    16
+establishments. 
+Europe    19
+comes 
+next 
+with 
+30    19
+establishments, 
+Asia    20
+has 
+20    20
+, 
+whilst 
+Australia    18
+nad 
+Africa    17
+have 
+only 
+5    17,18
+each.
+
+"
+,
+
+"
+The 
+graph
+shows 
+how 
+women are represented across different work sectors.  
+The 
+highest percentage 
+of 
+60%    11 
+is 
+at 
+law firms    11
+. 
+This
+is 
+then 
+followed 
+by 
+financial groups    8
+at 
+40%    8
+.  
+Insurance    10
+is 
+25%    10
+and 
+then 
+tech    9
+is 
+the 
+smallest representation 
+at 
+20%    9
+.
+"
+
+

@@ -1,0 +1,3 @@
+Germany, #32CD32
+Spain, #A9A9A9
+UK, #FA8072

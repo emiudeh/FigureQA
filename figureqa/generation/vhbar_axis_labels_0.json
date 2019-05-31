@@ -1,0 +1,8 @@
+{
+    "xaxis_label":"Year",
+    "yaxis_label":"Salary (1000$)",
+    "title_title":"Median Salary of Women Per Year",
+    "label1":"1980",
+    "label2":"1990",
+    "label3":"2010"
+}

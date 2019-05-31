@@ -1,0 +1,79 @@
+year 2000
+year 2005
+year 2010
+year 2015
+
+country Germany
+country Spain
+country UK
+
+sector Financial_Groups
+sector Tech
+sector Insurance
+sector Law_Firms
+
+continent North_America
+continent Europe
+continent Asia
+continent Africa
+
+
+continent America
+continent Africa
+continent Australia
+continent Europe
+continent Asia
+
+
+salary 40k
+salary 45k
+salary 50k
+salary 55k
+
+
+percentage 5%
+percentage 10%
+percentage 15%
+
+percentage 40%
+percentage 20%
+percentage 25%
+percentage 60%
+
+Million_Dollar 200 
+Million_Dollar 100
+Million_Dollar 320
+Million_Dollar 50
+
+Number_of_University 50
+Number_of_University 5
+Number_of_University 5
+Number_of_University 30
+Number_of_University 20
+
+
+[id=e1, xaxis_year=2000, yaxis_salary=40k]
+[xaxis_year=2005, yaxis_salary=45k]
+[xaxis_year=2010, yaxis_salary=50k]
+[xaxis_year=2015, yaxis_salary=55k]
+
+
+[xaxis_country=Germany, yaxis_percentage=5%]
+[xaxis_country=Spain, yaxis_percentage=10%]
+[xaxis_country=UK, yaxis_percentage=15%]
+
+[xaxis_sector=Financial_Groups, yaxis_percentage=40%]
+[xaxis_sector=Tech, yaxis_percentage=20%]
+[xaxis_sector=Insurance, yaxis_percentage=25%]
+[xaxis_sector=Law_Firms, yaxis_percentage=60%]
+
+[xaxis_continent=North_America, yaxis_Million_Dollar=200]
+[xaxis_continent=Europe, yaxis_Million_Dollar=100]
+[xaxis_continent=Asia, yaxis_Million_Dollar=320]
+[xaxis_continent=Africa, yaxis_Million_Dollar=50]
+
+[xaxis_continent=America, yaxis_Number_of_University=50]
+[xaxis_continent=Africa, yaxis_Number_of_University=5]
+[xaxis_continent=Australia, yaxis_Number_of_University=5]
+[xaxis_continent=Europe, yaxis_Number_of_University=30]
+[xaxis_continent=Asia, yaxis_Number_of_University=20]

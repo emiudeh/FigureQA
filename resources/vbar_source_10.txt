@@ -1,0 +1,4 @@
+Bachelor , #32CD32
+Master , #00BFFF
+PhD, #808080
+No Degree, #FA8072

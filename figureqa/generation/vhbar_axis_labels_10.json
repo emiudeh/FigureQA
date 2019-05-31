@@ -1,0 +1,5 @@
+{
+    "xaxis_label":"Degree",
+    "yaxis_label":"Salary(1000$)",
+    "title_title":"Median Salary Per Year For Software Engineers with Respect to their Degree"
+}

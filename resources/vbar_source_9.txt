@@ -1,0 +1,4 @@
+Jazz, #32CD32
+Pop, #00BFFF
+Rap, #808080
+Classic, #008B8B

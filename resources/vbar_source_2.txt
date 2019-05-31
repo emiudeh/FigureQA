@@ -1,0 +1,4 @@
+North America, #FA8072
+Europe, #008B8B
+Asia, #8B008B
+Africa, #FF00FF

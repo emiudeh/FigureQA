@@ -14,10 +14,10 @@ from bokeh.plotting import figure
 
 
 MARKERS = [Asterisk, Circle, Cross, Diamond, Square, Triangle, X]
-
+num_of_charts  = 0
 logger = logging.getLogger(__name__)
 # adding json annotation for the axis
-with open(os.path.join(os.path.dirname(__file__),"vhbar_axis_labels.json"), 'r') as ff:
+with open(os.path.join(os.path.dirname(__file__),"vhbar_axis_labels_0.json"), 'r') as ff:
         data1 = json.load(ff)
         logger.info("data read from json file")
 # Used in modified BokehJS
@@ -29,7 +29,8 @@ X_AXIS_LABEL = data1["xaxis_label"]#"xaxis_label" #"women"
 Y_AXIS_LABEL = data1["yaxis_label"]#"yaxis_label" #"salary"
 X_GRID_ID = "the_x_gridlines"
 Y_GRID_ID = "the_y_gridlines"
-
+logger.info("number of charts after axises assignments : !!!!!!!!!!!!")
+logger.info(num_of_charts)
 
 def get_grid_plot_data(title="title", xlabel="xaxis_label", ylabel="yaxis_label"):
     data = {
@@ -75,8 +76,30 @@ class HBarGraphCategorical (object):
 
 
 class VBarGraphCategorical (object):
-
+    
     def __init__(self, data, visuals={}):
+        #logger.info("Hi There !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+        global num_of_charts
+        logger.info("number of charts generated")
+        logger.info(num_of_charts)
+
+        ### Setting up the axis labels and so on
+        with open(os.path.join(os.path.dirname(__file__),"vhbar_axis_labels_"+`num_of_charts`+ ".json"), 'r') as ff:
+            data1 = json.load(ff)
+            logger.info("data read from json file")
+        
+        # Used in modified BokehJS
+        TITLE_ID = "the_title"
+        TITLE_LABEL = data1["title_title"]#"title"
+        X_AXIS_ID = "the_xaxis"
+        Y_AXIS_ID = "the_yaxis"
+        X_AXIS_LABEL = data1["xaxis_label"]#"xaxis_label" #"women"
+        Y_AXIS_LABEL = data1["yaxis_label"]#"yaxis_label" #"salary"
+        X_GRID_ID = "the_x_gridlines"
+        Y_GRID_ID = "the_y_gridlines"
+
+
+
 
         # Set up the plot
         p = figure(plot_width=visuals['figure_width'], plot_height=visuals['figure_height'], title=TITLE_LABEL, toolbar_location=None, x_range=data['x'])
@@ -85,7 +108,7 @@ class VBarGraphCategorical (object):
         # Set identifiers for the figure elements
         p.xaxis.name = X_AXIS_ID
         p.xaxis.axis_label = X_AXIS_LABEL
-        p.xaxis.major_label_orientation = "vertical"
+        p.xaxis.major_label_orientation = "horizontal"#"vertical"
         p.yaxis.name = Y_AXIS_ID
         p.yaxis.axis_label = Y_AXIS_LABEL
         p.title.name = TITLE_ID
@@ -106,12 +129,12 @@ class VBarGraphCategorical (object):
         else:
             p.grid[0].visible = False
             p.grid[1].visible = False
-
+        num_of_charts += 1
         self.figure = p
 
 
 class LinePlot (object):
-
+    
     def __init__(self, data, visuals={}):
 
         p = figure(plot_width=visuals['figure_width'], plot_height=visuals['figure_height'], title=TITLE_LABEL, toolbar_location=None)

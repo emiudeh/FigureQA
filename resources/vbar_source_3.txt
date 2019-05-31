@@ -1,0 +1,5 @@
+America, #32CD32
+Africa, #A9A9A9
+Australia, #FA8072
+Europe, #008B8B
+Asia, #8B008B
