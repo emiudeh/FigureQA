@@ -1,0 +1,11 @@
+male asians, #32CD32
+male americans, #00BFFF
+male africans, #808080
+male europeans, #A9A9A9
+female asians, #FA8072
+female americans, #008B8B
+female africans, #8B008B
+female europeans, #FF00FF
+2050, #87CEFA
+2060, #9ACD32
+2070, #708090

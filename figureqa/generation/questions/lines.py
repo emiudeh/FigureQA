@@ -5,7 +5,7 @@ import random
 
 from sklearn.metrics import auc
 
-from utils import augment_questions
+#from utils import augment_questions
 
 def _calculate_roughness(x, y):
 
@@ -241,7 +241,7 @@ def generate_line_plot_questions(data, color_map=None):
                             'answer': 0
                         })
 
-    if color_map:
-        augment_questions(qa_pairs, color_map)
+    #if color_map:
+        #augment_questions(qa_pairs, color_map)
 
     return qa_pairs

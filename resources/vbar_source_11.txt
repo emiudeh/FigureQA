@@ -1,0 +1,4 @@
+STEM, #00BFFF
+Literature, #808080
+Philosophy, #FA8072
+Medicine, #008B8B

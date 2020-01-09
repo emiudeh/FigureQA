@@ -10,7 +10,7 @@ from figure_generation import generate_figures
 from json_combiner import combine_figure_data
 from source_data_generation import generate_source_data
 
-
+logger = logging.getLogger(__name__)
 @click.command()
 @click.argument("generation_yaml")
 @click.option("--share-webdriver/--new-webdriver", default=True,
@@ -51,6 +51,9 @@ def main(generation_yaml, share_webdriver):
                 os.mkdir(partition_dir)
 
             source_data_args = copy.deepcopy(partition)
+            logger.info('source_data_args is : ')
+            #logger.info('==========================================================')
+            logger.info(source_data_args)
             del source_data_args['name']
 
             source_data_args['output_file_json'] = os.path.join(partition_dir, "source_data.json")

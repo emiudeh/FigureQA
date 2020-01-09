@@ -1,0 +1,5 @@
+Computer Science, #FA8072
+Arts, #008B8B
+Mathematics, #8B008B
+Literature, #87CEFA
+Engineering, #9ACD32

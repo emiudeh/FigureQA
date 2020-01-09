@@ -5,20 +5,66 @@ import numpy as np
 import os
 import random
 import yaml
+import logging
 
 from tqdm import tqdm
 
 from data_utils import combine_source_and_rendered_data, get_best_inside_legend_position, hex_to_rgb
-from questions.categorical import generate_bar_graph_questions, generate_pie_chart_questions
-from questions.lines import generate_line_plot_questions
+#from questions.categorical import generate_bar_graph_questions, generate_pie_chart_questions
+#from questions.lines import generate_line_plot_questions
 from questions.utils import balance_questions_by_qid, NUM_DISTINCT_QS
 
 from scipy.stats import norm as norm_gen
 
 
+logger = logging.getLogger(__name__)
+logging.basicConfig(format='%(asctime)s,%(msecs)d %(levelname)-8s [%(filename)s:%(lineno)d] %(message)s',
+    datefmt='%d-%m-%Y:%H:%M:%S',
+    level=logging.INFO)
+program_counter = 0
 # Utility functions
 def generate_data_by_shape(x_range, y_range, n, x_distn, shape):
+    logger.info("inside generate_data_by_shape")
+    #logger.info("program_counter is : ")
+    #logger.info(program_counter)
     x = []
+    # n = number of points (bars)
+    #logger.info("n is : ") 
+    #logger.info(n)
+    #logger.info("x_distn is : ")
+    #logger.info(x_distn)
+    #logger.info("shape is : ")
+    #logger.info(shape)
+    #if program_counter == 0:
+    #    program_counter +=1
+
+    #elif program_counter ==1:
+    #    program_counter +=1
+
+    #elif program_counter ==2:
+    #    program_counter +=1
+
+    #elif program_counter ==3:
+    #    program_counter +=1
+
+    #elif program_counter ==4:
+    #    program_counter +=1
+
+    #elif program_counter ==5:
+    #    program_counter +=1
+
+    #elif program_counter ==6:
+    #    program_counter +=1
+
+    #elif program_counter ==7:
+    #    program_counter +=1
+
+    #elif program_counter ==8:
+    #    program_counter +=1
+
+    #elif program_counter ==9:
+    #    contprogram_counter +=1
+
 
     if x_distn == "random":
         x = (x_range[1] - x_range[0]) * np.random.random(n) + x_range[0]
@@ -38,7 +84,7 @@ def generate_data_by_shape(x_range, y_range, n, x_distn, shape):
                 break
         x = final_points
 
-    x = sorted(x)
+    #x = sorted(x)
     y = []
 
     max_slope = (y_range[1] - y_range[0]) / float(x_range[1] - x_range[0])
@@ -96,7 +142,7 @@ def generate_data_by_shape(x_range, y_range, n, x_distn, shape):
                 break
 
         y = final_points
-
+    
     elif shape == "quadratic":
         # Use vertex form: y = a(x-h)^2 + k
         h = (x_range[1] - x_range[0])/2 * np.random.random() + x_range[0]
@@ -112,11 +158,15 @@ def generate_data_by_shape(x_range, y_range, n, x_distn, shape):
 
         a *= np.random.random()*0.00005
         y = np.clip(np.array([a*(xx-h)**2 + k for xx in x]), y_range[0], y_range[1]).tolist()
-
+    #logger.info("x is : ")
+    #logger.info(x)
+    #logger.info("y is : ")
+    #logger.info(y)
     return x, y
 
 
 def pick_random_int_range(the_range):
+    logger.info("inside pick_random_int_range")
     range_start, range_end = the_range
     start = np.random.random_integers(range_start, range_end - 1)
     end = np.random.random_integers(start + 1, range_end)
@@ -141,7 +191,7 @@ def pick_n_classes_from_half_gaussian(start, end):
 
 
 def sample_from_custom_gaussian(mean, stddev, bound_start, bound_end):
-
+    logger.info("sample_from_custom_gaussian")
     # Use rejection sampling
     while True:
         y = np.random.normal(mean, stddev)
@@ -154,23 +204,63 @@ def sample_from_custom_gaussian(mean, stddev, bound_start, bound_end):
 
 # Data generation functions
 def _generate_scatter_data_continuous(x_range, y_range, x_distns, shapes, n_points_range, n_classes_range, class_distn_mean=0, fix_x_range=False, fix_y_range=False):
+    logger.info("inside _generate_scatter_data_continuous")
+    #logger.info('x_range is : ')
+    #logger.info(x_range) # [0, 100]
+    #logger.info('================================')
+    #logger.info('y_range is : ')
+    #logger.info(y_range) # [0, 100]
+    #logger.info('================================')
+    #logger.info('n_classes_range is : ')
+    #logger.info(n_classes_range)
+    #logger.info('================================')
+    #logger.info('n_points_range is : ')
+    #logger.info(n_points_range)
+    #logger.info('================================')
     if not fix_x_range:
         x_range = pick_random_int_range(x_range)
+        
     if not fix_y_range:
         y_range = pick_random_int_range(y_range)
+        
+    #logger.info('x_range after if is : ')
+    #logger.info(x_range)
+    
+    #logger.info('y_range after if is : ')
+    #logger.info(y_range)
 
-    s, e = n_classes_range
+    s, e = [2, 5]#n_classes_range # n_classes_range = [2,7]
     n_classes = np.random.random_integers(s, e)
-    s, e = n_points_range
+    #logger.info('n_classes is : ')
+    #logger.info(n_classes)
+    s, e = n_points_range # = [5,20]
     n_points = np.random.random_integers(s, e)
 
+    #logger.info('n_points is : ')
+    #logger.info(n_points)
+
+
+    #logger.info('continous x_distns is : ')
+    #logger.info(x_distns) #x_distns = ['linear']
     point_sets = []
     for i in range(0, n_classes):
         x_distn = np.random.choice(x_distns)
+
+        #logger.info('x_distn in for loop is : ')
+        #logger.info(x_distn)
+
         shape = np.random.choice(shapes)
 
-        x, y = generate_data_by_shape(x_range, y_range, n_points, x_distn, shape)
+        #logger.info('shape in for loop is : ')
+        #logger.info(shape)
 
+        x, y = generate_data_by_shape(x_range, y_range, n_points, x_distn, shape)
+        #logger.info('========================================================')
+        #logger.info('x is : ')
+        #logger.info(x)
+        #logger.info('y is : ')
+        #logger.info(y)
+        #logger.info('========================================================')
         if type(x) != type([]):
             x = x.tolist()
         if type(y) != type([]):
@@ -182,21 +272,57 @@ def _generate_scatter_data_continuous(x_range, y_range, x_distns, shapes, n_poin
 
 
 def _generate_scatter_data_categorical(y_range, n_points_range, x_distns, shapes, n_classes_range, fix_y_range=False):
+    logger.info('inside _generate_scatter_data_categorical')
+    #logger.info('y_range before if is : ')
+    #logger.info(y_range)
+    
+    #logger.info('n_points_range before if is : ')
+    #logger.info(n_points_range)
+    #logger.info('n_classes_range is : ')
+    #logger.info(n_classes_range)# [2, 10]
+    #logger.info('x_distns before if is : ')
+    #logger.info(x_distns)
+    #logger.info('==================')
+
+
+
     if not fix_y_range:
         y_range = pick_random_int_range(y_range)
 
-    s, e = n_classes_range
-    n_classes = np.random.random_integers(s, e)
+
+    #logger.info('y_range after if is : ')
+    #logger.info(y_range)
+    
+    
+    s, e = [2, 5]#n_classes_range
+    n_classes = 2 #np.random.random_integers(s, e)
+    #logger.info('n_classes is : ')
+    #logger.info(n_classes)
     s, e = n_points_range
     n_points = np.random.random_integers(s, e)
-    
+
+    #logger.info('shapes is : ')
+    #logger.info(shapes)
+    #if (program_counter % 2 == 0):
+    #    shape_chosed = 'linear_inc'
+    #else :
+    #    shape_chosed = 'linear_dec'
+    #logger.info(shape_chosed)
+    #logger.info('program counter is : ' +  str(program_counter))
+    #logger.info(program_counter)
     # Pick and randomize the labels, by index
     all_labels = np.random.permutation(n_points).tolist()
+    #logger.info('categorial x_distns is : ')
+    #logger.info(x_distns) x_distns = ['linear']
+    #logger.info('all_labels is : ')
+    #logger.info(all_labels)
 
     point_sets = []
     for i in range(0, n_classes):
-        x_distn = np.random.choice(x_distns)
-        shape = np.random.choice(shapes)
+        #logger.info("out i : ")
+        #logger.info(i)
+        x_distn = "normal"#np.random.choice(x_distns)
+        shape = "linear"#np.random.choice(shapes)
         x, y = generate_data_by_shape([0, n_points - 1], y_range, n_points, x_distn, shape)
         
         # Round x to discretize it
@@ -205,28 +331,168 @@ def _generate_scatter_data_categorical(y_range, n_points_range, x_distns, shapes
         # Then de-dupe it
         dedupe_x, dedupe_y = [x[0]], [y[0]]
         last_x = x[0]
-        for i in range(1, len(x)):
+        for j in range(1, len(x)):
             try:
-                if x[i] == last_x:
+                if x[j] == last_x:
                     continue
-                last_x = x[i]
-                dedupe_x.append(x[i])
-                dedupe_y.append(y[i])
+                last_x = x[j]
+                dedupe_x.append(x[j])
+                dedupe_y.append(y[j])
+                #logger.info("insider i : ")
+                #logger.info(i)
             except:
                 continue
 
         x, y = dedupe_x, dedupe_y
+        zero_found = 0.0 in y
+        
+        #index_of_zero_value = y.index(0.0)
+        #index_of_zero_value = y.index(0.0)
+        #index_of_zero_value = y.index(0.0) if 0.0 in y else None
+        if zero_found :
+            index_of_zero_value = y.index(0.0)
+            y.pop(index_of_zero_value)
+            x.pop(index_of_zero_value)
+        #logger.info('========================================================')
+        #logger.info('x is : ')
+        #logger.info(x)
+        #logger.info('y is : ')
+        #logger.info(y)
+        #logger.info('========================================================') 
+        #labels = [all_labels[xx] for xx in x]
+        class_num = 2
 
-        labels = [all_labels[xx] for xx in x]
+        #logger.info('labels is : ')
+        #logger.info(labels)
         if type(y) != type([]):
             y = y.tolist()
+        if program_counter == 0:
+            class_num = 5
+            n_points = 5
+            x[:] = []
+            y[:] = []
+            x = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri']
+            y = [92.75, 69.32, 61.72, 60.10, 31.30]
+        if program_counter == 1: #7 #12
+            class_num = 5
+            n_points = 5
+            x[:] = []
+            y[:] = []
+            x = ["Computer Science", "Arts", "Mathematics", "Literature", "Engineering"]
+            y = [60, 32, 55, 23, 70]
+        if program_counter == 2:
+            class_num = 6 
+            n_points = 6
+            x[:] = []
+            y[:] = []
+            x = ["2012", "2013", "2014", "2015", "2016"]
+            y = [30, 25, 16, 15, 12]
+        if program_counter == 3:
+            class_num = 6 
+            n_points = 6
+            x[:] = []
+            y[:] = []
+            x = ["2012", "2013", "2014", "2015", "2016"]
+            y = [27, 32, 26, 22, 25]
+        if program_counter == 4:
+            class_num = 4
+            n_points = 4
+            x[:] = []
+            y[:] = []
+            x = ["Financial Groups", "Tech", "Insurance","Law Firms"]
+            y = [50, 62, 65, 35]
+        if program_counter == 5:
+            class_num = 6
+            n_points = 6
+            x[:] = []
+            y[:] = []
+            x = ["1990-1994", "1995-1999", "2000-2004", "2005-2009", "2010-2014", "2015-2019"]
+            y = [13.7, 12.0, 8.6, 7.9, 6.3, 6.8]
+        if program_counter == 6:
+            class_num = 6
+            n_points = 6
+            x[:] = []
+            y[:] = []
+            x = ["1990-1994", "1995-1999", "2000-2004", "2005-2009", "2010-2014", "2015-2019"]
+            y = [0.5, 2.1, 7.5, 10, 12.7, 14]
+            # x = ["1990-1994", "1995-1999", "2000-2004", "2005-2009", "2010-2014", "2015-2019"]
+            # y = [13.7, 12.0, 8.6, 7.9, 6.3, 6.8]
+        if program_counter == 7: #12
+            class_num = 5 
+            n_points = 5
+            x[:] = []
+            y[:] = []
+            x = ["North America", "Europe", "Asia", "Africa"]
+            y = [147.8, 270.3, 175, 290.5]
+        if program_counter == 8:
+            class_num = 3
+            n_points = 3
+            x[:] = []
+            y[:] = []
+            x = ["Germany", "Spain", "UK"]
+            y = [15.5, 8.5, 11]
+        if program_counter == 9: #14
+            class_num = 4
+            n_points = 4
+            x[:] = []
+            y[:] = []
+            x = ["Watching TV", "Spend Time With Family", "Reading a Book","Going Out"]
+            y = [12, 32, 38, 18]
+        if program_counter == 10:
+            class_num = 5
+            n_points = 5
+            x[:] = []
+            y[:] = []
+            x = ["15-24", "25-34", "35-44", "45-54", "55-64"]
+            y = [125, 75, 74, 150, 110]
+        if program_counter == 11: #13
+            class_num = 4
+            n_points = 4
+            x[:] = []
+            y[:] = []
+            x = ["STEM", "Literature", "Philosophy","Medicine"]
+            y = [15, 24, 30, 31]
+            
+        if program_counter == 12: #1 
+            class_num = 5
+            n_points = 5
+            x[:] = []
+            y[:] = []
+            x = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri']
+            y = [51.40, 62, 74.38, 21.9, 9.42]
+        
+        if program_counter == 13: #11
+            class_num = 4
+            n_points = 4
+            x[:] = []
+            y[:] = []
+            x = ["2000", "2005" , "2010", "2015"]
+            y = [22.7, 25.65, 19.7, 16]
+        
+        if program_counter == 14: #10
+            class_num = 5
+            n_points = 5
+            x[:] = []
+            y[:] = []
+            x = ["15-24", "25-34", "35-44", "45-54", "55-64"]
+            y = [181, 157, 124, 99, 73]
+        if program_counter == 15:
+            class_num = 3
+            n_points = 3
+            x[:] = []
+            y[:] = []
+            x = ["Fast Food", "Genetic", "Lack of Exercises"]
+            y = [24.3, 40.1, 35.6]
 
-        point_sets.append({ 'class': i, 'x': labels, 'y': y })
+        point_sets.append({ 'class': class_num, 'x': x, 'y': y }) # 'class' = i, 'x' = labels
+        #logger.info("point_sets is : ")
+        #logger.info(point_sets)
 
     return {'type': "scatter_categorical_base", 'data': point_sets, 'n_points': n_points}
 
 
 def generate_scatter():
+    logger.info("inside generate_scatter")
     config = data_config['scatter']   
     
     data = _generate_scatter_data_continuous(   config['x_range'],
@@ -254,6 +520,7 @@ def generate_scatter():
 
 
 def _generate_visuals_common():
+    logger.info("inside _generate_visuals_common")
     visuals = {}
     visuals['draw_legend'] = True if np.random.random() <= common_config['draw_legend_pr'] else False
     if visuals['draw_legend']:
@@ -267,15 +534,21 @@ def _generate_visuals_common():
 
     visuals['figure_width'] = int(ratio * visuals['figure_height'])
 
-    visuals['draw_gridlines'] = True if np.random.random() <= common_config['draw_gridlines_pr'] else False
-
+    # visuals['draw_gridlines'] = True if np.random.random() <= common_config['draw_gridlines_pr'] else False
+    visuals['draw_gridlines'] = True 
+    
     visuals['legend_label_font_size'] = np.random.choice(common_config['legend_label_font_sizes'])
 
     return visuals
 
 
 def _generate_bar_categorical(key):
+    logger.info("inside _generate_bar_categorical")
     config = data_config[key]   
+    #logger.info("key is : ")
+    #logger.info(key) vbar_categorical
+    #logger.info('_generate_bar_categorical configs')
+    #logger.info(config)
     
     data = _generate_scatter_data_categorical(  config['y_range'],
                                                 config['n_points_range'],
@@ -285,47 +558,96 @@ def _generate_bar_categorical(key):
                                                 fix_y_range=True
                                             )
 
+    #logger.info('data content')
+    #logger.info(data)
+    #logger.info('shape is : ')
+    
+    if (program_counter < 5):
+        config['shape'] = 'linear_inc'
+    else:
+        config['shape'] = 'linear_dec'
+    #logger.info(config['shape'])
     # Get colors and labels
     all_color_pairs = []
+    #logger.info('source of axis : ')
+    #logger.info(config['color_sources'][0])
+    config['color_sources'][0] = 'resources/vbar_source_'+ `program_counter`+'.txt'
+    
     with open(os.path.normpath(config['color_sources'][0]), 'r') as f:
         for w in f.readlines():
+            logger.info(config['color_sources'][0])
+            logger.info("program_counter is : ")
+            logger.info(program_counter)
             name, color = w.split(',')
             all_color_pairs.append((name.strip(), color.strip()))
-
-    selected_color_pairs = random.sample(all_color_pairs, len(data['data'][0]['x']))
-
+    #logger.info('data[data][0][x] is : ')
+    #data['data'][0]['x'] = [0,1,2,3]
+    #logger.info("get that x here : ")
+    #logger.info(data['data'][0]['x'])
+    #data['data'][0]['x'] = [1980, 1990, 2000, 2010]
+    #logger.info('source of axis : ')
+    data['data'][0]['x'].sort()
+    #logger.info(data['data'][0]['x'])
+    #logger.info('================================================')
+    #logger.info('all color pairs : ')
+    #logger.info(all_color_pairs)
+    selected_color_pairs = []
+    #logger.info("range(len(data['data'][0]['x'])) is : ")
+    #logger.info(range(len(data['data'][0]['x'])))
+    for i in  range(len(data['data'][0]['x'])): # data['data'][0]['x']:
+        logger.info("program_counter is : ")
+        logger.info(program_counter)
+        selected_color_pairs.append(all_color_pairs[i])
+    #selected_color_pairs = [x for x in all_color_pairs ]
+    #selected_color_pairs = random.sample(all_color_pairs, len(data['data'][0]['x']))
+    #logger.info('selected color pairs')
+    #logger.info(selected_color_pairs)
+    #len(data['data'][0]['x'])
     assigned_labels = []
     assigned_colors = []
-    for label_index in data['data'][0]['x']:
+    for label_index in range(len(data['data'][0]['x'])):#data['data'][0]['x']:
+        #logger.info('label_index is : ')
+        #logger.info(label_index)
         assigned_labels.append(selected_color_pairs[label_index][0])
+        #logger.info('selected_color_pairs[label_index][0] is : ')
+        #logger.info(selected_color_pairs[label_index][0])
         assigned_colors.append(selected_color_pairs[label_index][1])
+        #logger.info('selected_color_pairs[label_index][1] is : ')
+        #logger.info(selected_color_pairs[label_index][1])
 
     # Re-map the labels
     new_point_set = {'class': data['data'][0]['class'], 'x': assigned_labels, 'y': data['data'][0]['y'], 'labels': assigned_labels, 'colors': assigned_colors}
     data['data'] = [new_point_set]
+    #logger.info("data is : ")
+    #logger.info(data)
     data['visuals'] = _generate_visuals_common()
 
     return data
 
 
 def generate_vbar_categorical():
+    logger.info("inside generate_vbar_categorical")
     bar_data = _generate_bar_categorical("vbar_categorical")
     bar_data['type'] = "vbar_categorical"
-    bar_data['qa_pairs'] = generate_bar_graph_questions(combine_source_and_rendered_data(bar_data), color_map=color_map)
+    global program_counter 
+    program_counter = program_counter + 1
+    #bar_data['qa_pairs'] = generate_bar_graph_questions(combine_source_and_rendered_data(bar_data), color_map=color_map)
     return bar_data
 
 
 def generate_hbar_categorical():
+    logger.info("inside generate_hbar_categorical")
     bar_data = _generate_bar_categorical("hbar_categorical")
     old_x = bar_data['data'][0]['x']
     bar_data['data'][0]['x'] = bar_data['data'][0]['y']
     bar_data['data'][0]['y'] = old_x
     bar_data['type'] = "hbar_categorical"
-    bar_data['qa_pairs'] = generate_bar_graph_questions(combine_source_and_rendered_data(bar_data), color_map=color_map)
+    #bar_data['qa_pairs'] = generate_bar_graph_questions(combine_source_and_rendered_data(bar_data), color_map=color_map)
     return bar_data
 
 
 def _generate_visuals_for_line_plot(point_sets):
+    logger.info("inside _generate_visuals_for_line_plot")
     visuals = _generate_visuals_common()
     visuals['legend_inside'] = True if np.random.random() <= common_config['legend_inside_pr'] else False
 
@@ -369,6 +691,7 @@ def _generate_visuals_for_line_plot(point_sets):
 
 
 def _generate_line(key):
+    logger.info("inside _generate_line")
     config = data_config[key]
     data = _generate_scatter_data_continuous(   config['x_range'],
                                                 config['y_range'],
@@ -378,14 +701,28 @@ def _generate_line(key):
                                                 config['n_classes_range'],
                                                 fix_x_range=True
                                             )
+    #logger.info('_generate_line config')
+    #logger.info(config)
+    #logger.info('================================')
+    #logger.info('data in _generate_line')
+    #logger.info(data)
+    #logger.info('================================')
+
     # Get colors and labels
     all_color_pairs = []
+    config['color_sources'][0] = 'resources/line_source.txt'
     with open(os.path.normpath(config['color_sources'][0]), 'r') as f:
         for w in f.readlines():
             name, color = w.split(',')
             all_color_pairs.append((name.strip(), color.strip()))
 
-    selected_color_pairs = random.sample(all_color_pairs, len(data['data']))
+    selected_color_pairs = []
+    for i in range(len(data['data'])):
+        selected_color_pairs.append(all_color_pairs[i])
+    #logger.info('data[data] is : ')
+    #logger.info(data['data'])
+    
+    #selected_color_pairs = random.sample(all_color_pairs, len(data['data']))
 
     for i, point_set in enumerate(data['data']):
         point_set['label'] = selected_color_pairs[i][0]
@@ -395,9 +732,10 @@ def _generate_line(key):
 
 
 def generate_line():
+    logger.info("inside generate_line")
     line_data = _generate_line("line")
     line_data['type'] = "line"
-    line_data['qa_pairs'] = generate_line_plot_questions(combine_source_and_rendered_data(line_data), color_map=color_map)
+    #line_data['qa_pairs'] = generate_line_plot_questions(combine_source_and_rendered_data(line_data), color_map=color_map)
     visuals = _generate_visuals_for_line_plot(line_data['data'])
 
     # Add variation for line styles
@@ -421,9 +759,10 @@ def generate_line():
 
 
 def generate_dot_line():
+    logger.info("inside generate_dot_line")
     line_data = _generate_line("dot_line")
     line_data['type'] = "dot_line"
-    line_data['qa_pairs'] = generate_line_plot_questions(combine_source_and_rendered_data(line_data), color_map=color_map)
+    #line_data['qa_pairs'] = generate_line_plot_questions(combine_source_and_rendered_data(line_data), color_map=color_map)
     line_data['visuals'] = _generate_visuals_for_line_plot(line_data['data'])
 
     return line_data
@@ -489,7 +828,7 @@ def generate_pie():
         visuals['legend_layout_position'] = legend_layout_position            
 
     pie_data['visuals'] = visuals
-    pie_data['qa_pairs'] = generate_pie_chart_questions(combine_source_and_rendered_data(pie_data), color_map=color_map)
+    #pie_data['qa_pairs'] = generate_pie_chart_questions(combine_source_and_rendered_data(pie_data), color_map=color_map)
 
     return pie_data
 
@@ -501,24 +840,28 @@ def generate_source_data (
         seed=1,
         colors=os.path.join("resources", "x11_colors_refined.txt"),
         keep_all_questions=False,
-        vbar=0,
+        vbar=10,
         hbar=0,
         pie=0,
         line=0,
         dot_line=0
     ):
-
+    logger.info("inside generate_source_data")
     PLOT_KEY_PAIRS = [("vbar", "vbar_categorical"), ("hbar", "hbar_categorical"), ("pie", None), ("line", None), ("dot_line", None)]
-
+    
     if all([locals()[arg_name] == 0 for arg_name, actual_name in PLOT_KEY_PAIRS]) \
             or any([locals()[arg_name] < 0 for arg_name, actual_name in PLOT_KEY_PAIRS]):
         raise Exception("Invalid number of figures! Need at least one plot type specified!")
 
     global data_config
     global common_config
-
+    
+    #global inc_counter = 0
+    #global dec_counter = 0
     with open(data_config_yaml, 'r') as f:
         data_config = yaml.load(f)
+        #logger.info("data_config is : ")
+        #logger.info(data_config)
 
     with open(common_config_yaml, 'r') as f:
         common_config = yaml.load(f)
@@ -542,7 +885,8 @@ def generate_source_data (
     generated_data = []
 
     for args_key, config_key in PLOT_KEY_PAIRS:
-
+        #logger.info('args_key and config_key are : ')
+        #logger.info(args_key + ',  ' + config_key)
         figure_ids = range(0, locals()[args_key])
 
         if len(figure_ids) == 0:
@@ -555,14 +899,18 @@ def generate_source_data (
             if config_key in data_config:
                 generated_data.append(globals()['generate_' + config_key]())
 
+    #logger.info('print generated_data')
+    #logger.info('======================================')
+    #logger.info(generated_data)
+
     # Balance by question ID
-    if not keep_all_questions:
-        balance_questions_by_qid(generated_data)
+    #if not keep_all_questions:
+        #balance_questions_by_qid(generated_data)
 
     with open(output_file_json, 'w') as f:
         json.dump({
             'data': generated_data, 
-            'total_distinct_questions': NUM_DISTINCT_QS,
+            #'total_distinct_questions': NUM_DISTINCT_QS,
             'total_distinct_colors': len(color_map)
         }, f)
 
@@ -593,6 +941,7 @@ def main (**kwargs):
     Generates source data and questions for figures using the plotting parameters and colors
     defined in DATA_CONFIG_YAML and saves the data to OUTPUT_FILE_JSON.
     """
+    logger.info("inside main")
     generate_source_data(**kwargs)
 
 
