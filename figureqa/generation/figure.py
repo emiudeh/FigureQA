@@ -99,30 +99,66 @@ class VBarGraphCategorical (object):
         Y_GRID_ID = "the_y_gridlines"
 
 
+        y_axis_high = max(data['y'])
 
+        if y_axis_high <= 20:
+            interval = 2
+            minor_ticks = 10
+        elif y_axis_high <= 50:
+            interval = 5
+            minor_ticks = 10            
+        elif y_axis_high <= 100:
+            interval = 10
+            minor_ticks = 10
+        elif y_axis_high <= 150:
+            interval = 20
+            minor_ticks = 10
+        else:
+            interval = 50
+            minor_ticks = 10   
+        
+        # ensure max value on y_axis corresponds to max bar
+        y_axis_high += (interval - (y_axis_high % interval))
 
         # Set up the plot
-        p = figure(plot_width=visuals['figure_width'], plot_height=visuals['figure_height'], title=TITLE_LABEL, toolbar_location=None, x_range=data['x'])
+        p = figure(plot_width=visuals['figure_width'], plot_height=visuals['figure_height'], title=TITLE_LABEL, toolbar_location=None, x_range=data['x'], y_range=(0, y_axis_high))
+        # p = figure(plot_width=1000, plot_height=10000, title=TITLE_LABEL, toolbar_location=None, x_range=data['x'], y_range=(0, y_axis_high))
+        
         p.vbar(x=data['x'], width=0.5, bottom=0, top=data['y'], fill_color=data['colors'], line_color=None, name="the_bars")
         #logger.info("hi there")
 
-        source = ColumnDataSource(dict(x=data['x'],y=data['y']))
-        labels = LabelSet(x='x', y='y', 
-                    text='y', 
-                    text_font_size= '8.6pt',
-                    level='glyph', 
-                    x_offset=-13.5, y_offset=0, 
-                    source=source, 
-                    render_mode='canvas')
-        p.add_layout(labels)
+
+        ## Adding caption above bars
+        # source = ColumnDataSource(dict(x=data['x'],y=data['y']))
+        # labels = LabelSet(x='x', y='y', 
+        #             text='y', 
+        #             text_font_size= '8.6pt',
+        #             level='glyph', 
+        #             x_offset=-13.5, y_offset=0, 
+        #             source=source, 
+        #             render_mode='canvas')
+        # p.add_layout(labels)
 
         # Set identifiers for the figure elements
+        # ticker = SingleIntervalTicker(interval=interval, num_minor_ticks=minor_ticks)
+        ticker = SingleIntervalTicker(interval=interval)
+        p.yaxis.ticker = ticker
         p.xaxis.name = X_AXIS_ID
         p.xaxis.axis_label = X_AXIS_LABEL
         p.xaxis.major_label_orientation = "horizontal"#"vertical"
         p.yaxis.name = Y_AXIS_ID
         p.yaxis.axis_label = Y_AXIS_LABEL
         p.title.name = TITLE_ID
+
+
+        
+        # print("***AAA***AAAAA")
+        # print("***AAA***AAAAA")
+        # print("***AAA***AAAAA")
+        # print(data['program_counter'])
+        # print("***AAA***AAAAA")
+        # print("***AAA***AAAAA")
+        # print("***AAA***AAAAA")
 
         ## debugging arguments
         #logger.info('checking data source')

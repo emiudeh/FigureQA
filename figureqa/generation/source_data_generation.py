@@ -484,7 +484,7 @@ def _generate_scatter_data_categorical(y_range, n_points_range, x_distns, shapes
             x = ["Fast Food", "Genetic", "Lack of Exercises"]
             y = [24.3, 40.1, 35.6]
 
-        point_sets.append({ 'class': class_num, 'x': x, 'y': y }) # 'class' = i, 'x' = labels
+        point_sets.append({ 'class': class_num, 'x': x, 'y': y, 'program_counter' : program_counter }) # 'class' = i, 'x' = labels
         #logger.info("point_sets is : ")
         #logger.info(point_sets)
 
@@ -532,6 +532,15 @@ def _generate_visuals_common():
     hi = common_config['figure_width_ratio_range'][1]
     ratio = (np.random.random() * (hi - lo)) + lo
 
+    # print("*****")
+    # print("*****")
+    # print("*****")
+    # print("width ration", ratio)
+    # print("*****")
+    # print("*****")
+    # print("*****")
+
+
     visuals['figure_width'] = int(ratio * visuals['figure_height'])
 
     # visuals['draw_gridlines'] = True if np.random.random() <= common_config['draw_gridlines_pr'] else False
@@ -558,6 +567,14 @@ def _generate_bar_categorical(key):
                                                 fix_y_range=True
                                             )
 
+    # print("*****")
+    # print("*****")
+    # print("*****")
+    # print(data)
+    # print("*****")
+    # print("*****")
+    # print("*****")
+    
     #logger.info('data content')
     #logger.info(data)
     #logger.info('shape is : ')
@@ -615,8 +632,13 @@ def _generate_bar_categorical(key):
         #logger.info('selected_color_pairs[label_index][1] is : ')
         #logger.info(selected_color_pairs[label_index][1])
 
+
+    print("*****")
+    print("Added program_counter to new_point_set (ie data) in the source_data_generation.py file")
+
+
     # Re-map the labels
-    new_point_set = {'class': data['data'][0]['class'], 'x': assigned_labels, 'y': data['data'][0]['y'], 'labels': assigned_labels, 'colors': assigned_colors}
+    new_point_set = {'program_counter': data['data'][0]['program_counter'], 'class': data['data'][0]['class'], 'x': assigned_labels, 'y': data['data'][0]['y'], 'labels': assigned_labels, 'colors': assigned_colors}
     data['data'] = [new_point_set]
     #logger.info("data is : ")
     #logger.info(data)
@@ -629,9 +651,21 @@ def generate_vbar_categorical():
     logger.info("inside generate_vbar_categorical")
     bar_data = _generate_bar_categorical("vbar_categorical")
     bar_data['type'] = "vbar_categorical"
+    
     global program_counter 
     program_counter = program_counter + 1
     #bar_data['qa_pairs'] = generate_bar_graph_questions(combine_source_and_rendered_data(bar_data), color_map=color_map)
+
+    # print("AAAAAAAA")
+    # print("AAAAAAAA")
+    # print("AAAAAAAA")
+    # # print(point_sets[1])
+    # print(bar_data)
+    # # print(type(point_sets[0]))
+    # print("AAAAAAAA")
+    # print("AAAAAAAA")
+    # print("AAAAAAAA")
+    
     return bar_data
 
 
@@ -899,6 +933,8 @@ def generate_source_data (
             if config_key in data_config:
                 generated_data.append(globals()['generate_' + config_key]())
 
+
+        
     #logger.info('print generated_data')
     #logger.info('======================================')
     #logger.info(generated_data)

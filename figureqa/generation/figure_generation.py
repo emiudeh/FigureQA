@@ -68,6 +68,17 @@ def generate_figures (
 
         if fig_type == 'vbar_categorical':
             fig = VBarGraphCategorical(point_sets[0], source['visuals'])
+
+            # print("AAAAAAAA")
+            # print("AAAAAAAA")
+            # print("AAAAAAAA")
+            # # print(point_sets[1])
+            # print(fig_id)
+            # # print(type(point_sets[0]))
+            # print("AAAAAAAA")
+            # print("AAAAAAAA")
+            # print("AAAAAAAA")
+
         elif fig_type == 'hbar_categorical':
             fig = HBarGraphCategorical(point_sets[0], source['visuals'])
         elif fig_type == 'line':

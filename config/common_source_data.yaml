@@ -1,5 +1,5 @@
 figure_height_px: 400
-figure_width_ratio_range: [1.0, 2.0]
+figure_width_ratio_range: [1.2, 2.0]
 figure_min_width_side_legend: 1.33
 draw_gridlines_pr: 0.5
 draw_legend_pr: 1.0
