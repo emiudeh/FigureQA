@@ -1,3 +1,5 @@
-Fast Food, #32CD32
-Genetic, #00BFFF
-Lack of Exercises, #008B8B
+Mon, #FA8072
+Tue, #008B8B
+Wed, #8B008B
+Thu, #87CEFA
+Fri, #9ACD32

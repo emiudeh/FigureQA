@@ -1,5 +1,5 @@
 {
     "xaxis_label":"Deparment",
-    "yaxis_label":"Percentage",
-    "title_title":"What do Students at Lagos State University choose to study?"
+    "yaxis_label":"Percentage (%)",
+    "title_title":"What Students at Lagos State University choose to study"
 }

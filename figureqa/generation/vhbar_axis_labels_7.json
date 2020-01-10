@@ -1,5 +1,5 @@
 {
-    "xaxis_label":"Country",
-    "yaxis_label":" (Million Dollar)",
-    "title_title":"Money Spent on Higher Education in Year 2010"
+    "xaxis_label":"Cause",
+    "yaxis_label":"Percentage (%)",
+    "title_title":"What causes Obesity in Kiribati"
 }

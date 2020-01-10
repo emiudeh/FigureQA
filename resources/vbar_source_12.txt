@@ -1,5 +1,4 @@
-Mon, #FA8072
-Tue, #008B8B
-Wed, #8B008B
-Thu, #87CEFA
-Fri, #9ACD32
+North America, #FA8072
+Europe, #008B8B
+Asia, #8B008B
+Africa, #FF00FF

@@ -373,6 +373,7 @@ def _generate_scatter_data_categorical(y_range, n_points_range, x_distns, shapes
             y[:] = []
             x = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri']
             y = [92.75, 69.32, 61.72, 60.10, 31.30]
+
         if program_counter == 1: #7 #12
             class_num = 5
             n_points = 5
@@ -380,13 +381,15 @@ def _generate_scatter_data_categorical(y_range, n_points_range, x_distns, shapes
             y[:] = []
             x = ["Computer Science", "Arts", "Mathematics", "Literature", "Engineering"]
             y = [60, 32, 55, 23, 70]
-        if program_counter == 2:
-            class_num = 6 
-            n_points = 6
+
+        if program_counter == 2: #10 ------------------------------------
+            class_num = 5
+            n_points = 5
             x[:] = []
             y[:] = []
-            x = ["2012", "2013", "2014", "2015", "2016"]
-            y = [30, 25, 16, 15, 12]
+            x = ["15-24", "25-34", "35-44", "45-54", "55-64"]
+            y = [125, 75, 74, 150, 110]
+
         if program_counter == 3:
             class_num = 6 
             n_points = 6
@@ -394,6 +397,7 @@ def _generate_scatter_data_categorical(y_range, n_points_range, x_distns, shapes
             y[:] = []
             x = ["2012", "2013", "2014", "2015", "2016"]
             y = [27, 32, 26, 22, 25]
+
         if program_counter == 4:
             class_num = 4
             n_points = 4
@@ -401,6 +405,7 @@ def _generate_scatter_data_categorical(y_range, n_points_range, x_distns, shapes
             y[:] = []
             x = ["Financial Groups", "Tech", "Insurance","Law Firms"]
             y = [50, 62, 65, 35]
+
         if program_counter == 5:
             class_num = 6
             n_points = 6
@@ -408,6 +413,7 @@ def _generate_scatter_data_categorical(y_range, n_points_range, x_distns, shapes
             y[:] = []
             x = ["1990-1994", "1995-1999", "2000-2004", "2005-2009", "2010-2014", "2015-2019"]
             y = [13.7, 12.0, 8.6, 7.9, 6.3, 6.8]
+
         if program_counter == 6:
             class_num = 6
             n_points = 6
@@ -415,36 +421,41 @@ def _generate_scatter_data_categorical(y_range, n_points_range, x_distns, shapes
             y[:] = []
             x = ["1990-1994", "1995-1999", "2000-2004", "2005-2009", "2010-2014", "2015-2019"]
             y = [0.5, 2.1, 7.5, 10, 12.7, 14]
-            # x = ["1990-1994", "1995-1999", "2000-2004", "2005-2009", "2010-2014", "2015-2019"]
-            # y = [13.7, 12.0, 8.6, 7.9, 6.3, 6.8]
-        if program_counter == 7: #12
-            class_num = 5 
-            n_points = 5
+            # x = ["1990-1994", "1995-1999", "20
+
+        if program_counter == 7: #---------------------------------------
+            class_num = 3
+            n_points = 3
             x[:] = []
             y[:] = []
-            x = ["North America", "Europe", "Asia", "Africa"]
-            y = [147.8, 270.3, 175, 290.5]
+            x = ["Fast Food", "Genetic", "Lack of Exercise"]
+            y = [24.3, 40.1, 35.6]
+    
         if program_counter == 8:
             class_num = 3
             n_points = 3
             x[:] = []
             y[:] = []
             x = ["Germany", "Spain", "UK"]
-            y = [15.5, 8.5, 11]
-        if program_counter == 9: #14
+            y = [21, 15.1, 20.5]
+
+        if program_counter == 9: #---------------------------------
             class_num = 4
             n_points = 4
             x[:] = []
             y[:] = []
             x = ["Watching TV", "Spend Time With Family", "Reading a Book","Going Out"]
             y = [12, 32, 38, 18]
+
         if program_counter == 10:
-            class_num = 5
-            n_points = 5
+            class_num = 6 
+            n_points = 6
             x[:] = []
             y[:] = []
-            x = ["15-24", "25-34", "35-44", "45-54", "55-64"]
-            y = [125, 75, 74, 150, 110]
+            x = ["2012", "2013", "2014", "2015", "2016"]
+            y = [30, 25, 16, 15, 12]
+
+        
         if program_counter == 11: #13
             class_num = 4
             n_points = 4
@@ -452,16 +463,24 @@ def _generate_scatter_data_categorical(y_range, n_points_range, x_distns, shapes
             y[:] = []
             x = ["STEM", "Literature", "Philosophy","Medicine"]
             y = [15, 24, 30, 31]
-            
-        if program_counter == 12: #1 
+
+        if program_counter == 12: 
+            class_num = 5 
+            n_points = 5
+            x[:] = []
+            y[:] = []
+            x = ["North America", "Europe", "Asia", "Africa"]
+            y = [147.8, 270.3, 175, 290.5]
+
+        if program_counter == 13: 
             class_num = 5
             n_points = 5
             x[:] = []
             y[:] = []
-            x = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri']
-            y = [51.40, 62, 74.38, 21.9, 9.42]
-        
-        if program_counter == 13: #11
+            x = ["15-24", "25-34", "35-44", "45-54", "55-64"]
+            y = [181, 157, 124, 99, 73]
+
+        if program_counter == 14: 
             class_num = 4
             n_points = 4
             x[:] = []
@@ -469,20 +488,14 @@ def _generate_scatter_data_categorical(y_range, n_points_range, x_distns, shapes
             x = ["2000", "2005" , "2010", "2015"]
             y = [22.7, 25.65, 19.7, 16]
         
-        if program_counter == 14: #10
+        if program_counter == 15: #1 
             class_num = 5
             n_points = 5
             x[:] = []
             y[:] = []
-            x = ["15-24", "25-34", "35-44", "45-54", "55-64"]
-            y = [181, 157, 124, 99, 73]
-        if program_counter == 15:
-            class_num = 3
-            n_points = 3
-            x[:] = []
-            y[:] = []
-            x = ["Fast Food", "Genetic", "Lack of Exercises"]
-            y = [24.3, 40.1, 35.6]
+            x = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri']
+            y = [51.40, 62, 74.38, 21.9, 9.42]
+        
 
         point_sets.append({ 'class': class_num, 'x': x, 'y': y, 'program_counter' : program_counter }) # 'class' = i, 'x' = labels
         #logger.info("point_sets is : ")

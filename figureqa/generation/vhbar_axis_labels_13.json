@@ -1,5 +1,5 @@
 {
-    "xaxis_label":"Year",
-    "yaxis_label":"Salary (1000$)",
-    "title_title":"Median Salary of Women in Najaf Per Year"
+    "xaxis_label":"Age Group",
+    "yaxis_label":"Minutes",
+    "title_title":"Average Time Spent On Social Media Daily in Maputo by Age Group"
 }

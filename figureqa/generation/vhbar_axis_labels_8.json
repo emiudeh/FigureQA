@@ -1,5 +1,5 @@
 {
     "xaxis_label":"Country",
-    "yaxis_label":"Percentage",
-    "title_title":"Gender Pay Gap"
+    "yaxis_label":"Percentage (%)",
+    "title_title":"Gender Pay Gap, 2017"
 }

@@ -12,7 +12,7 @@ splits:
       - name: train1_1
         data_config_yaml: config/color_scheme1_source_data.yaml
         seed: 123
-        vbar: 13
+        vbar: 5
         hbar: 0
         pie: 0
         line: 0
@@ -20,7 +20,7 @@ splits:
       - name: train1_2
         data_config_yaml: config/color_scheme1_source_data.yaml
         seed: 456
-        vbar: 1
+        vbar: 5
         hbar: 0
         pie: 0
         line: 0
@@ -31,7 +31,7 @@ splits:
       - name: validation1
         data_config_yaml: config/color_scheme1_source_data.yaml
         seed: 654
-        vbar: 1
+        vbar: 3
         hbar: 0
         pie: 0
         line: 0
@@ -42,7 +42,7 @@ splits:
       - name: validation2
         data_config_yaml: config/color_scheme2_source_data.yaml
         seed: 321
-        vbar: 1
+        vbar: 3
         hbar: 0
         pie: 0
         line: 0

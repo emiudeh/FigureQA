@@ -1,4 +1,3 @@
-North America, #FA8072
-Europe, #008B8B
-Asia, #8B008B
-Africa, #FF00FF
+Fast Food, #32CD32
+Genetic, #00BFFF
+Lack of Exercise, #008B8B

@@ -1,5 +1,5 @@
 {
-    "xaxis_label":"Year",
-    "yaxis_label":"Number of Fatal Injuries",
-    "title_title":"Number of Fatal Injuries at the Pula Steel Factory"
+    "xaxis_label":"Age Group",
+    "yaxis_label":"Minutes",
+    "title_title":"Average Time Spent On Social Media Daily in Maputo by Age Group"
 }
